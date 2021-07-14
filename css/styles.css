@@ -1,0 +1,53 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  background-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+main > .container {
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar {
+  height: 10vh;
+}
+
+.navbar > .container {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.navbar > .container > a {
+  display: flex;
+  align-items: center;
+}
+
+.brand {
+  color: black;
+  font-size: large;
+  font-weight: bold;
+}
+
+.image-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  max-height: 30vh;
+}
+
+.text-area {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
