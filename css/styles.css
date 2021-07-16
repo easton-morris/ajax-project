@@ -16,6 +16,13 @@ main > .container {
   justify-content: center;
 }
 
+canvas {
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  height: 30vh;
+}
+
 .navbar {
   height: 10vh;
 }
