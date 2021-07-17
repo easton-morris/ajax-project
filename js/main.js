@@ -9,6 +9,16 @@ const quoteText = 'Resignation is what kills people. Once theyve rejected resign
 const canvasW = $canvas.width;
 const canvasH = $canvas.height;
 
+// 40 characters across max//
+// function to take the quote and limit the number of char per line//
+function quoteSplit(quote) {
+  const quoteL = quote.length;
+  if (quoteL > 38) {
+    quote.split();
+  }
+}
+
+// function to load canvas and draw the quote//
 function canvasLoad() {
   $canvas = $canvas.getContext('2d');
   $canvas.drawImage(randImg, 0, 0, canvasW, canvasH);
@@ -18,4 +28,5 @@ function canvasLoad() {
   $canvas.fillText(quoteText, canvasW / 2, canvasH / 2);
 }
 
+document.onload = quoteSplit(quoteText);
 randImg.onload = canvasLoad();
