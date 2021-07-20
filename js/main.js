@@ -8,25 +8,39 @@ $canvas.setAttribute('width', imgW);
 const quoteText = 'Resignation is what kills people. Once theyve rejected resignation, humans gain the privilege of making humanity their footpath. Alucard (Hellsing)';
 const canvasW = $canvas.width;
 const canvasH = $canvas.height;
-
-// 40 characters across max//
-// function to take the quote and limit the number of char per line//
-function quoteSplit(quote) {
-  const quoteL = quote.length;
-  if (quoteL > 38) {
-    quote.split();
-  }
-}
+const canvasCont = $canvas.getContext('2d');
 
 // function to load canvas and draw the quote//
-function canvasLoad() {
+function canvasLoadImg() {
   $canvas = $canvas.getContext('2d');
   $canvas.drawImage(randImg, 0, 0, canvasW, canvasH);
-  $canvas.font = '4rem Playfair Display';
-  $canvas.fillStyle = '#FFD700';
-  $canvas.textAlign = 'center';
-  $canvas.fillText(quoteText, canvasW / 2, canvasH / 2);
 }
 
-document.onload = quoteSplit(quoteText);
-randImg.onload = canvasLoad();
+// function to take the quote and limit the number of char per line//
+function quoteWrap(quote) {
+  const quoteWords = quoteText.split(' ');
+  let currentLine = '';
+  const maxW = canvasW - 200;
+  let fillH = 40;
+
+  for (let i = 0; i < quoteWords.length; i++) {
+    const lineCheck = currentLine + quoteWords[i] + ' ';
+    const checkWidth = canvasCont.measureText(lineCheck);
+    if (checkWidth > maxW && i > 0) {
+      canvasCont.font = '4rem Playfair Display';
+      canvasCont.fillStyle = '#FFD700';
+      canvasCont.textAlign = 'center';
+      canvasCont.fillText(currentLine, canvasW / 2, fillH);
+      fillH = fillH + 20;
+    } else {
+      currentLine = lineCheck;
+    }
+  }
+  canvasCont.font = '3rem Playfair Display';
+  canvasCont.fillStyle = '#FFD700';
+  canvasCont.textAlign = 'center';
+  canvasCont.fillText(currentLine, canvasW / 2, fillH);
+}
+
+randImg.onload = canvasLoadImg();
+quoteWrap(quoteText);
