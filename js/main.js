@@ -20,18 +20,19 @@ function canvasLoadImg() {
 function quoteWrap(quote) {
   const quoteWords = quoteText.split(' ');
   let currentLine = '';
-  const maxW = canvasW - 200;
-  let fillH = 40;
+  const maxW = 400;
+  let fillH = 50;
 
   for (let i = 0; i < quoteWords.length; i++) {
     const lineCheck = currentLine + quoteWords[i] + ' ';
     const checkWidth = canvasCont.measureText(lineCheck);
-    if (checkWidth > maxW && i > 0) {
+    if (checkWidth.width > maxW && i > 0) {
       canvasCont.font = '4rem Playfair Display';
       canvasCont.fillStyle = '#FFD700';
       canvasCont.textAlign = 'center';
       canvasCont.fillText(currentLine, canvasW / 2, fillH);
-      fillH = fillH + 20;
+      currentLine = quoteWords[i] + ' ';
+      fillH = fillH + 40;
     } else {
       currentLine = lineCheck;
     }
