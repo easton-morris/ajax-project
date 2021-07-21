@@ -1,6 +1,7 @@
 const $canvas = document.getElementById('canvas');
 const randImg = new Image();
 randImg.src = 'images\\grayexp.jpg';
+randImg.alt = 'Grayscale Image of Random Thing';
 const quoteText = 'Resignation is what kills people. Once theyve rejected resignation, humans gain the privilege of making humanity their footpath.';
 const quoteAttr = 'Alucard (Hellsing)';
 const canvasCont = $canvas.getContext('2d');
