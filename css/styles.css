@@ -20,7 +20,6 @@ canvas {
   border-style: solid;
   border-color: black;
   border-width: 2px;
-  height: 30vh;
 }
 
 .navbar {
@@ -47,10 +46,6 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-img {
-  max-height: 30vh;
 }
 
 .text-area {
