@@ -3,17 +3,16 @@
 }
 
 a {
+  cursor: pointer;
   text-decoration: none;
   background-color: transparent;
 }
 
 button {
   cursor: pointer;
-}
-
-main > .container {
-  align-items: center;
-  justify-content: center;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  padding: 1rem;
 }
 
 canvas {
@@ -24,11 +23,6 @@ canvas {
 
 .navbar {
   height: 10vh;
-}
-
-.navbar > .container {
-  align-items: center;
-  justify-content: flex-start;
 }
 
 .navbar > .container > a {
@@ -48,8 +42,8 @@ canvas {
   justify-content: center;
 }
 
-.text-area {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+.button-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
