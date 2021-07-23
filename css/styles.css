@@ -47,3 +47,11 @@ canvas {
   align-items: center;
   justify-content: center;
 }
+
+.randomize-button {
+  color: white;
+  background-color: #5d7a50;
+  border-radius: 10px;
+  padding-left: 5rem;
+  padding-right: 5rem;
+}
