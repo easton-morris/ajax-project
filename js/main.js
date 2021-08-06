@@ -9,6 +9,12 @@ randImg.alt = 'Grayscale Image of Random Thing';
 let quoteText = 'Resignation is what kills people. Once theyve rejected resignation, humans gain the privilege of making humanity their footpath.';
 let quoteAttr = 'Alucard (Hellsing)';
 
+// get localStorage data//
+let currentData = localStorage.getItem('javascript-local-storage');
+if (currentData !== null) {
+  currentData = JSON.parse(currentData);
+}
+
 // canvas context API//
 const canvasCont = $canvas.getContext('2d');
 
