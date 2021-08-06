@@ -1,6 +1,7 @@
 // DOM JS elements//
 const $canvas = document.getElementById('canvas');
 const $randomizeButton = document.querySelector('.randomize-button');
+const $animeList = document.getElementById('anime-select');
 
 // random image and quote variables//
 const randImg = new Image();
@@ -38,6 +39,17 @@ function getRandomImg() {
     imgUpdate();
   });
   imgReq.send();
+}
+
+// XHR and creation of anime list//
+function getAnimeList() {
+  const listReq = new XMLHttpRequest();
+  listReq.open('GET', 'https://animechan.vercel.app/api/available/anime');
+  listReq.responseType = 'json';
+  listReq.addEventListener('load', function () {
+    loadOptions(this.response);
+  });
+  listReq.send();
 }
 
 // load or dont load the new quote into the quoteText variable//
@@ -85,6 +97,21 @@ function quoteWrap(quote) {
   canvasCont.fillText(quoteAttr, 1280 / 2, fillH + 75); // load in the attribution separately//
   canvasCont.strokeText(quoteAttr, 1280 / 2, fillH + 75);
 }
+
+// function to create dropdown options//
+function loadOptions(animeArray) {
+  for (let ii = 0; ii < animeArray.length; ii++) {
+    const newOp = document.createElement('option');
+    newOp.setAttribute('value', animeArray[ii]);
+    newOp.textContent = animeArray[ii];
+    $animeList.appendChild(newOp);
+  }
+}
+
+// event listener to load the page items//
+window.addEventListener('load', () => {
+  getAnimeList();
+});
 
 // populate new image and text once the image is ready//
 randImg.addEventListener('load', function () {
