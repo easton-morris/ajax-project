@@ -30,6 +30,25 @@ function getRandomQuote() {
   quoteReq.send();
 }
 
+// random integer between 0 and 9 for the anime//
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// XHR for a random quote from a specific anime//
+function getAnimeQuote(anime) {
+  const quoteReq = new XMLHttpRequest();
+  const randNum = getRandomIntInclusive(0, 9);
+  quoteReq.open('GET', `https://animechan.vercel.app/api/quotes/anime?title=${anime}`);
+  quoteReq.responseType = 'json';
+  quoteReq.addEventListener('load', function () {
+    quoteUpdate(this.response[randNum].quote, this.response[randNum].character, this.response[randNum].anime);
+  });
+  quoteReq.send();
+}
+
 // XHR for a random picture//
 function getRandomImg() {
   const imgReq = new XMLHttpRequest();
@@ -121,6 +140,10 @@ randImg.addEventListener('load', function () {
 
 // event listener for randomizing on button click//
 $randomizeButton.addEventListener('click', function () {
-  getRandomQuote();
+  if ($animeList.value === 'random') {
+    getRandomQuote();
+  } else {
+    getAnimeQuote($animeList.value);
+  }
   getRandomImg();
 });
