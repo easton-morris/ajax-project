@@ -10,8 +10,8 @@ a {
 
 button {
   cursor: pointer;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 1rem;
 }
 
@@ -54,4 +54,19 @@ canvas {
   border-radius: 10px;
   padding-left: 5rem;
   padding-right: 5rem;
+}
+
+#quote-mods {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.form-area {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  padding: 0.5rem;
 }
