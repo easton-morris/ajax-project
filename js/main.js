@@ -30,7 +30,7 @@ function getRandomQuote() {
   quoteReq.send();
 }
 
-// random integer between 0 and 9 for the anime//
+// random integer for the anime//
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -44,7 +44,12 @@ function getAnimeQuote(anime) {
   quoteReq.open('GET', `https://animechan.vercel.app/api/quotes/anime?title=${anime}`);
   quoteReq.responseType = 'json';
   quoteReq.addEventListener('load', function () {
-    quoteUpdate(this.response[randNum].quote, this.response[randNum].character, this.response[randNum].anime);
+    if (this.response[randNum] !== undefined) {
+      quoteUpdate(this.response[randNum].quote, this.response[randNum].character, this.response[randNum].anime);
+    } else {
+      quoteUpdate(this.response[0].quote, this.response[0].character, this.response[0].anime);
+
+    }
   });
   quoteReq.send();
 }

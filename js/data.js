@@ -2,7 +2,8 @@
 
 const data = {
   animeSelect: 'random',
-  keepImage: true
+  keepImage: true,
+  keepQuote: true
 };
 
 window.addEventListener('load', event => {
