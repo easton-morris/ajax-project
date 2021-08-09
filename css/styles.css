@@ -13,6 +13,7 @@ button {
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
+  font-size: large;
 }
 
 canvas {
@@ -22,7 +23,7 @@ canvas {
 }
 
 .navbar {
-  height: 10vh;
+  height: 9vh;
 }
 
 .navbar > .container > a {
@@ -69,4 +70,21 @@ canvas {
 
 label {
   padding: 0.5rem;
+  font-weight: bold;
+}
+
+select {
+  background-color: #86ad74;
+  border: hidden;
+  border-radius: 5px;
+  padding: 0.25rem;
+}
+
+select:focus {
+  outline: none;
+}
+
+option {
+  cursor: pointer;
+  font-weight: bold;
 }
