@@ -10,9 +10,10 @@ a {
 
 button {
   cursor: pointer;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 1rem;
+  font-size: large;
 }
 
 canvas {
@@ -22,7 +23,7 @@ canvas {
 }
 
 .navbar {
-  height: 10vh;
+  height: 9vh;
 }
 
 .navbar > .container > a {
@@ -54,4 +55,36 @@ canvas {
   border-radius: 10px;
   padding-left: 5rem;
   padding-right: 5rem;
+}
+
+#quote-mods {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.form-area {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  padding: 0.5rem;
+  font-weight: bold;
+}
+
+select {
+  background-color: #86ad74;
+  border: hidden;
+  border-radius: 5px;
+  padding: 0.25rem;
+}
+
+select:focus {
+  outline: none;
+}
+
+option {
+  cursor: pointer;
+  font-weight: bold;
 }
