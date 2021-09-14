@@ -7,7 +7,7 @@ const $animeList = document.getElementById('anime-select');
 const randImg = new Image();
 randImg.src = 'images\\grayexp.jpg';
 randImg.alt = 'Grayscale Image of Random Thing';
-let quoteText = 'Resignation is what kills people. Once theyve rejected resignation, humans gain the privilege of making humanity their footpath.';
+let quoteText = 'Resignation is what kills people. Once they\'ve rejected resignation, humans gain the privilege of making humanity their footpath.';
 let quoteAttr = 'Alucard (Hellsing)';
 
 // get localStorage data//
@@ -16,7 +16,7 @@ if (currentData !== null) {
   currentData = JSON.parse(currentData);
 }
 
-// canvas context API//
+// canvas context API assignment//
 const canvasCont = $canvas.getContext('2d');
 
 // XHR for a random quote text//
@@ -41,7 +41,7 @@ function getRandomIntInclusive(min, max) {
 function getAnimeQuote(anime) {
   const quoteReq = new XMLHttpRequest();
   const randNum = getRandomIntInclusive(0, 9);
-  quoteReq.open('GET', `https://animechan.vercel.app/api/quotes/anime?title=${anime}`);
+  quoteReq.open('GET', `https://animechan.vercel.app/api/quotes/anime?title=${anime}&page=${randNum}`);
   quoteReq.responseType = 'json';
   quoteReq.addEventListener('load', function () {
     if (this.response[randNum] !== undefined) {
@@ -93,32 +93,38 @@ function canvasLoadImg() {
 }
 
 // function to take the quote and limit the number of char per line//
-function quoteWrap(quote) {
+function quoteWrap(quote, startFont) {
   const quoteWords = quoteText.split(' ');
   let currentLine = '';
   const maxW = 1000;
   let fillH = 200;
+  let lineCount = 0;
 
   for (let i = 0; i < quoteWords.length; i++) {
     const lineCheck = currentLine + quoteWords[i] + ' ';
     const checkWidth = canvasCont.measureText(lineCheck);
-    canvasCont.font = 'bold 3rem Roboto';
+    canvasCont.font = `bold ${startFont}rem Roboto`;
     canvasCont.fillStyle = '#FFD700';
     canvasCont.strokeStyle = 'black';
     canvasCont.textAlign = 'center';
-    if (checkWidth.width > maxW && i > 0) {
+    if (checkWidth.width > maxW && i > 0 && lineCount < 6) {
       canvasCont.fillText(currentLine, 1280 / 2, fillH);
       canvasCont.strokeText(currentLine, 1280 / 2, fillH);
       currentLine = quoteWords[i] + ' ';
       fillH = fillH + 75; // space the lines of text out//
-    } else {
+      lineCount++;
+    } else if (lineCount < 6) {
       currentLine = lineCheck;
+    } else {
+      // wipe the old text and try again with a smaller font //
+      canvasLoadImg();
+      quoteWrap(quote, (startFont - 1));
     }
   }
   canvasCont.fillText(currentLine, 1280 / 2, fillH);
   canvasCont.strokeText(currentLine, 1280 / 2, fillH);
-  canvasCont.font = 'bold 2rem Roboto';
-  canvasCont.fillText(quoteAttr, 1280 / 2, fillH + 75); // load in the attribution separately//
+  canvasCont.font = `bold ${startFont - 1}rem Roboto`; // load in the attribution separately//
+  canvasCont.fillText(quoteAttr, 1280 / 2, fillH + 75);
   canvasCont.strokeText(quoteAttr, 1280 / 2, fillH + 75);
 }
 
@@ -140,7 +146,7 @@ window.addEventListener('load', () => {
 // populate new image and text once the image is ready//
 randImg.addEventListener('load', function () {
   canvasLoadImg();
-  quoteWrap(quoteText);
+  quoteWrap(quoteText, 3);
 });
 
 // event listener for randomizing on button click//
