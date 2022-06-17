@@ -2,6 +2,9 @@
 const $canvas = document.getElementById('canvas');
 const $randomizeButton = document.querySelector('.randomize-button');
 const $animeList = document.getElementById('anime-select');
+const $keepImgBtn = document.getElementById('keepImg');
+const $keepQuoteBtn = document.getElementById('keepQuote');
+const $toggleArea = document.getElementById('toggle-area');
 
 // random image and quote variables//
 const randImg = new Image();
@@ -76,10 +79,17 @@ function getAnimeList() {
   listReq.send();
 }
 
-// load or dont load the new quote into the quoteText variable//
+// load the new quote into the quoteText variable and update the canvas if//
+//    the toggles are only changing the quote //
 function quoteUpdate(quote, character, anime) {
+  const currentData = localStorage.getItem('javascript-local-storage');
+  const currData = JSON.parse(currentData);
   quoteText = quote;
   quoteAttr = character + ' (' + anime + ')';
+  if (currData.keepQuote === 'off' && currData.keepImage === 'on') {
+    canvasLoadImg();
+    quoteWrap(quoteText, 3);
+  }
 }
 
 // load or dont load the new image into the randImg.src//
@@ -151,10 +161,57 @@ randImg.addEventListener('load', function () {
 
 // event listener for randomizing on button click//
 $randomizeButton.addEventListener('click', function () {
-  if ($animeList.value === 'random') {
-    getRandomQuote();
-  } else {
-    getAnimeQuote($animeList.value);
+  const currentData = localStorage.getItem('javascript-local-storage');
+  const currData = JSON.parse(currentData);
+
+  if (currData.keepQuote === 'off') {
+    if ($animeList.value === 'random') {
+      getRandomQuote();
+    } else {
+      getAnimeQuote($animeList.value);
+    }
   }
-  getRandomImg();
+  if (currData.keepImage === 'off') {
+    getRandomImg();
+  }
 });
+
+// function for toggling the data-toggle attr of the button //
+function dataToggle(event) {
+  const buttonTarget = event.target;
+  const currentSetting = buttonTarget.getAttribute('data-toggle');
+
+  if (currentSetting === 'off' || currentSetting === '') {
+    buttonTarget.setAttribute('data-toggle', 'on');
+  } else if (currentSetting === 'on') {
+    buttonTarget.setAttribute('data-toggle', 'off');
+  }
+}
+
+// listener to update the attributes of the keepImg btn on click //
+$keepImgBtn.addEventListener('click', event => {
+  dataToggle(event);
+});
+
+// listener to update the attributes of the keepQuote btn on click //
+$keepQuoteBtn.addEventListener('click', event => {
+  dataToggle(event);
+});
+
+// function to update the localStorage with new button info on click //
+function updateToggles() {
+  const currentData = JSON.parse(localStorage.getItem('javascript-local-storage'));
+  const newData = {
+    animeSelect: currentData.animeSelect,
+    keepImage: $keepImgBtn.getAttribute('data-toggle'),
+    keepQuote: $keepQuoteBtn.getAttribute('data-toggle')
+  };
+
+  localStorage.setItem('javascript-local-storage', JSON.stringify(newData));
+}
+
+// add a listener to toggle area buttons update the toggles on click //
+$toggleArea.addEventListener('click', event => {
+  updateToggles();
+}
+);

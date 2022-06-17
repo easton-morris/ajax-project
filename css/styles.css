@@ -88,3 +88,16 @@ option {
   cursor: pointer;
   font-weight: bold;
 }
+
+.keep-button {
+  padding: 0.25rem;
+  margin: 0.5rem;
+  background-color: lightgray;
+  border: outset;
+  border-radius: 5px;
+}
+
+button[data-toggle=on] {
+  border: inset;
+  background-color: #b76e79;
+}
