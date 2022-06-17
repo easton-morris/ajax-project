@@ -2,6 +2,8 @@
 const $canvas = document.getElementById('canvas');
 const $randomizeButton = document.querySelector('.randomize-button');
 const $animeList = document.getElementById('anime-select');
+const $keepImgButton = document.getElementById('keepImg');
+const $keepQuoteButton = document.getElementById('keepQuote');
 
 // random image and quote variables//
 const randImg = new Image();
@@ -158,3 +160,27 @@ $randomizeButton.addEventListener('click', function () {
   }
   getRandomImg();
 });
+
+// function to update the localStorage with new button info on click //
+function updateToggles() {
+  const currentData = JSON.parse(localStorage.getItem('javascript-local-storage'));
+  const newData = {
+    animeSelect: currentData.animeSelect,
+    keepImage: $keepImgButton.getAttribute('data-toggle'),
+    keepQuote: $keepQuoteButton.getAttribute('data-toggle')
+  };
+
+  localStorage.setItem('javascript-local-storage', JSON.stringify(newData));
+}
+
+// add a listener to keepImg button update the toggles on click //
+$keepImgButton.addEventListener('click', event => {
+  updateToggles();
+}
+);
+
+// add a listener to keepQuote button update the toggles on click //
+$keepQuoteButton.addEventListener('click', event => {
+  updateToggles();
+}
+);
