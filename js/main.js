@@ -167,7 +167,7 @@ function dataToggle(event) {
   const buttonTarget = event.target;
   const currentSetting = buttonTarget.getAttribute('data-toggle');
 
-  if (currentSetting === 'off') {
+  if (currentSetting === 'off' || currentSetting === '') {
     buttonTarget.setAttribute('data-toggle', 'on');
   } else if (currentSetting === 'on') {
     buttonTarget.setAttribute('data-toggle', 'off');
