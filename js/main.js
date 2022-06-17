@@ -2,8 +2,9 @@
 const $canvas = document.getElementById('canvas');
 const $randomizeButton = document.querySelector('.randomize-button');
 const $animeList = document.getElementById('anime-select');
-const $keepImgButton = document.getElementById('keepImg');
-const $keepQuoteButton = document.getElementById('keepQuote');
+const $keepImgBtn = document.getElementById('keepImg');
+const $keepQuoteBtn = document.getElementById('keepQuote');
+const $toggleArea = document.getElementById('toggle-area');
 
 // random image and quote variables//
 const randImg = new Image();
@@ -161,26 +162,42 @@ $randomizeButton.addEventListener('click', function () {
   getRandomImg();
 });
 
+// function for toggling the data-toggle attr of the button //
+function dataToggle(event) {
+  const buttonTarget = event.target;
+  const currentSetting = buttonTarget.getAttribute('data-toggle');
+
+  if (currentSetting === 'off') {
+    buttonTarget.setAttribute('data-toggle', 'on');
+  } else if (currentSetting === 'on') {
+    buttonTarget.setAttribute('data-toggle', 'off');
+  }
+}
+
+// listener to update the attributes of the keepImg btn on click //
+$keepImgBtn.addEventListener('click', event => {
+  dataToggle(event);
+});
+
+// listener to update the attributes of the keepQuote btn on click //
+$keepQuoteBtn.addEventListener('click', event => {
+  dataToggle(event);
+});
+
 // function to update the localStorage with new button info on click //
 function updateToggles() {
   const currentData = JSON.parse(localStorage.getItem('javascript-local-storage'));
   const newData = {
     animeSelect: currentData.animeSelect,
-    keepImage: $keepImgButton.getAttribute('data-toggle'),
-    keepQuote: $keepQuoteButton.getAttribute('data-toggle')
+    keepImage: $keepImgBtn.getAttribute('data-toggle'),
+    keepQuote: $keepQuoteBtn.getAttribute('data-toggle')
   };
 
   localStorage.setItem('javascript-local-storage', JSON.stringify(newData));
 }
 
-// add a listener to keepImg button update the toggles on click //
-$keepImgButton.addEventListener('click', event => {
-  updateToggles();
-}
-);
-
-// add a listener to keepQuote button update the toggles on click //
-$keepQuoteButton.addEventListener('click', event => {
+// add a listener to toggle area buttons update the toggles on click //
+$toggleArea.addEventListener('click', event => {
   updateToggles();
 }
 );
