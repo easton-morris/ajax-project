@@ -18,6 +18,7 @@ let currentData = localStorage.getItem('javascript-local-storage');
 if (currentData !== null) {
   currentData = JSON.parse(currentData);
 }
+// get screen size on load and set variable //
 
 // canvas context API assignment//
 const canvasCont = $canvas.getContext('2d');
