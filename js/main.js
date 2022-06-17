@@ -1,5 +1,5 @@
 // DOM JS elements//
-const $canvas = document.getElementById('canvas');
+const $canvasObj = document.getElementById('canvas');
 const $randomizeButton = document.querySelector('.randomize-button');
 const $animeList = document.getElementById('anime-select');
 const $keepImgBtn = document.getElementById('keepImg');
@@ -19,9 +19,37 @@ if (currentData !== null) {
   currentData = JSON.parse(currentData);
 }
 // get screen size on load and set variable //
+let currScrH = screen.availHeight;
+let currScrW = screen.availWidth;
+let imgReqH = currScrH;
+let imgReqW = currScrW;
+
+// function to calculate request img size//
+
+function reqSize(width) {
+  let reqW = 0;
+  let reqH = 0;
+  if (width < 480) {
+    reqW = 300;
+    reqH = 300;
+  } else if (width >= 480 && width <= 768) {
+    reqW = 400;
+    reqH = 400;
+  } else if (width >= 769 && width <= 1024) {
+    reqW = 640;
+    reqH = 480;
+  } else if (width >= 1025 && width <= 1200) {
+    reqW = 640;
+    reqH = 480;
+  } else if (width > 1200) {
+    reqW = 1280;
+    reqH = 720;
+  }
+  return [reqW, reqH];
+}
 
 // canvas context API assignment//
-const canvasCont = $canvas.getContext('2d');
+const canvasCont = $canvasObj.getContext('2d');
 
 // XHR for a random quote text//
 function getRandomQuote() {
@@ -61,7 +89,7 @@ function getAnimeQuote(anime) {
 // XHR for a random picture//
 function getRandomImg() {
   const imgReq = new XMLHttpRequest();
-  imgReq.open('GET', 'https://picsum.photos/1280/720?grayscale');
+  imgReq.open('GET', `https://picsum.photos/${imgReqW}/${imgReqH}?grayscale`);
   imgReq.responseType = 'json';
   imgReq.addEventListener('load', function () {
     imgUpdate();
@@ -95,20 +123,20 @@ function quoteUpdate(quote, character, anime) {
 
 // load or dont load the new image into the randImg.src//
 function imgUpdate() {
-  randImg.src = 'https://picsum.photos/1280/720?grayscale';
+  randImg.src = `https://picsum.photos/${imgReqW}/${imgReqH}?grayscale`;
 }
 
 // function to load canvas and draw the quote//
 function canvasLoadImg() {
-  canvasCont.drawImage(randImg, 0, 0, 1280, 720);
+  canvasCont.drawImage(randImg, 0, 0, imgReqW, imgReqH);
 }
 
 // function to take the quote and limit the number of char per line//
 function quoteWrap(quote, startFont) {
   const quoteWords = quoteText.split(' ');
   let currentLine = '';
-  const maxW = 1000;
-  let fillH = 200;
+  const maxW = (imgReqW - (imgReqW / 10));
+  let fillH = (imgReqH * 0.25);
   let lineCount = 0;
 
   for (let i = 0; i < quoteWords.length; i++) {
@@ -119,10 +147,10 @@ function quoteWrap(quote, startFont) {
     canvasCont.strokeStyle = 'black';
     canvasCont.textAlign = 'center';
     if (checkWidth.width > maxW && i > 0 && lineCount < 6) {
-      canvasCont.fillText(currentLine, 1280 / 2, fillH);
-      canvasCont.strokeText(currentLine, 1280 / 2, fillH);
+      canvasCont.fillText(currentLine, imgReqW / 2, fillH);
+      canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
       currentLine = quoteWords[i] + ' ';
-      fillH = fillH + 75; // space the lines of text out//
+      fillH = fillH + (imgReqH / 10); // space the lines of text out//
       lineCount++;
     } else if (lineCount < 6) {
       currentLine = lineCheck;
@@ -132,11 +160,11 @@ function quoteWrap(quote, startFont) {
       quoteWrap(quote, (startFont - 1));
     }
   }
-  canvasCont.fillText(currentLine, 1280 / 2, fillH);
-  canvasCont.strokeText(currentLine, 1280 / 2, fillH);
+  canvasCont.fillText(currentLine, imgReqW / 2, fillH);
+  canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
   canvasCont.font = `bold ${startFont - 1}rem Roboto`; // load in the attribution separately//
-  canvasCont.fillText(quoteAttr, 1280 / 2, fillH + 75);
-  canvasCont.strokeText(quoteAttr, 1280 / 2, fillH + 75);
+  canvasCont.fillText(quoteAttr, imgReqW / 2, fillH + 75);
+  canvasCont.strokeText(quoteAttr, imgReqW / 2, fillH + 75);
 }
 
 // function to create dropdown options//
@@ -164,6 +192,15 @@ randImg.addEventListener('load', function () {
 $randomizeButton.addEventListener('click', function () {
   const currentData = localStorage.getItem('javascript-local-storage');
   const currData = JSON.parse(currentData);
+  currScrH = screen.availHeight;
+  currScrW = screen.availWidth;
+
+  const sizes = reqSize(currScrW);
+  imgReqH = sizes[1];
+  imgReqW = sizes[0];
+
+  $canvasObj.setAttribute('width', imgReqW);
+  $canvasObj.setAttribute('height', imgReqH);
 
   if (currData.keepQuote === 'off') {
     if ($animeList.value === 'random') {
