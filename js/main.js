@@ -79,10 +79,17 @@ function getAnimeList() {
   listReq.send();
 }
 
-// load or dont load the new quote into the quoteText variable//
+// load the new quote into the quoteText variable and update the canvas if//
+//    the toggles are only changing the quote //
 function quoteUpdate(quote, character, anime) {
+  const currentData = localStorage.getItem('javascript-local-storage');
+  const currData = JSON.parse(currentData);
   quoteText = quote;
   quoteAttr = character + ' (' + anime + ')';
+  if (currData.keepQuote === 'off' && currData.keepImage === 'on') {
+    canvasLoadImg();
+    quoteWrap(quoteText, 3);
+  }
 }
 
 // load or dont load the new image into the randImg.src//
@@ -154,12 +161,19 @@ randImg.addEventListener('load', function () {
 
 // event listener for randomizing on button click//
 $randomizeButton.addEventListener('click', function () {
-  if ($animeList.value === 'random') {
-    getRandomQuote();
-  } else {
-    getAnimeQuote($animeList.value);
+  const currentData = localStorage.getItem('javascript-local-storage');
+  const currData = JSON.parse(currentData);
+
+  if (currData.keepQuote === 'off') {
+    if ($animeList.value === 'random') {
+      getRandomQuote();
+    } else {
+      getAnimeQuote($animeList.value);
+    }
   }
-  getRandomImg();
+  if (currData.keepImage === 'off') {
+    getRandomImg();
+  }
 });
 
 // function for toggling the data-toggle attr of the button //
