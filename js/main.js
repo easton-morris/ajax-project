@@ -117,7 +117,7 @@ function quoteUpdate(quote, character, anime) {
   quoteAttr = character + ' (' + anime + ')';
   if (currData.keepQuote === 'off' && currData.keepImage === 'on') {
     canvasLoadImg();
-    quoteWrap(quoteText, 3);
+    quoteWrap(quoteText, 48);
   }
 }
 
@@ -142,7 +142,7 @@ function quoteWrap(quote, startFont) {
   for (let i = 0; i < quoteWords.length; i++) {
     const lineCheck = currentLine + quoteWords[i] + ' ';
     const checkWidth = canvasCont.measureText(lineCheck);
-    canvasCont.font = `bold ${startFont}rem Roboto`;
+    canvasCont.font = `bold ${startFont}px Roboto`;
     canvasCont.fillStyle = '#FFD700';
     canvasCont.strokeStyle = 'black';
     canvasCont.textAlign = 'center';
@@ -162,7 +162,7 @@ function quoteWrap(quote, startFont) {
   }
   canvasCont.fillText(currentLine, imgReqW / 2, fillH);
   canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
-  canvasCont.font = `bold ${startFont - 1}rem Roboto`; // load in the attribution separately//
+  canvasCont.font = `bold ${startFont - 10}px Roboto`; // load in the attribution separately//
   canvasCont.fillText(quoteAttr, imgReqW / 2, fillH + 75);
   canvasCont.strokeText(quoteAttr, imgReqW / 2, fillH + 75);
 }
@@ -185,7 +185,7 @@ window.addEventListener('load', () => {
 // populate new image and text once the image is ready//
 randImg.addEventListener('load', function () {
   canvasLoadImg();
-  quoteWrap(quoteText, 3);
+  quoteWrap(quoteText, 48);
 });
 
 // event listener for randomizing on button click//
