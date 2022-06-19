@@ -92,7 +92,8 @@ function getRandomImg() {
   imgReq.open('GET', `https://picsum.photos/${imgReqW}/${imgReqH}?grayscale`);
   imgReq.responseType = 'json';
   imgReq.addEventListener('load', function () {
-    imgUpdate();
+    const id = this.getResponseHeader('picsum-id');
+    imgUpdate(id);
   });
   imgReq.send();
 }
@@ -122,8 +123,8 @@ function quoteUpdate(quote, character, anime) {
 }
 
 // load or dont load the new image into the randImg.src//
-function imgUpdate() {
-  randImg.src = `https://picsum.photos/${imgReqW}/${imgReqH}?grayscale`;
+function imgUpdate(id) {
+  randImg.src = `https://picsum.photos/id/${id}/${imgReqW}/${imgReqH}?grayscale`;
 }
 
 // function to load canvas and draw the quote//
@@ -133,7 +134,7 @@ function canvasLoadImg() {
 
 // function to take the quote and limit the number of char per line//
 function quoteWrap(quote, startFont) {
-  const quoteWords = quoteText.split(' ');
+  const quoteWords = quote.split(' ');
   let currentLine = '';
   const maxW = (imgReqW - (imgReqW / 10));
   let fillH = (imgReqH * 0.25);
@@ -152,7 +153,7 @@ function quoteWrap(quote, startFont) {
       currentLine = quoteWords[i] + ' ';
       fillH = fillH + (imgReqH / 10); // space the lines of text out//
       lineCount++;
-    } else if (lineCount < 6) {
+    } else if (lineCount < 4) {
       currentLine = lineCheck;
     } else {
       // wipe the old text and try again with a smaller font //
