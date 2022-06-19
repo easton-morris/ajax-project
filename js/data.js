@@ -15,8 +15,8 @@ window.addEventListener('load', event => {
   const currData = JSON.parse($currentData);
   $keepImgButton.setAttribute('data-toggle', currData.keepImage);
   $keepQuoteButton.setAttribute('data-toggle', currData.keepQuote);
-  $canvas.setAttribute('height', (screen.availHeight - 400));
-  $canvas.setAttribute('width', (screen.availWidth - 400));
+  $canvas.setAttribute('height', (window.innerHeight - 400));
+  $canvas.setAttribute('width', (window.innerWidth - 400));
 });
 
 window.addEventListener('beforeunload', event => {

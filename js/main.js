@@ -18,11 +18,11 @@ let currentData = localStorage.getItem('javascript-local-storage');
 if (currentData !== null) {
   currentData = JSON.parse(currentData);
 }
-// get screen size on load and set variable //
-let currScrH = screen.availHeight;
-let currScrW = screen.availWidth;
-let imgReqH = currScrH;
-let imgReqW = currScrW;
+// get window size on load and set variable //
+let currWinH = window.innerHeight;
+let currWinW = window.innerWidth;
+let imgReqH = currWinH;
+let imgReqW = currWinW;
 
 // function to calculate request img size//
 
@@ -38,10 +38,10 @@ function reqSize(width) {
   } else if (width >= 769 && width <= 1024) {
     reqW = 640;
     reqH = 480;
-  } else if (width >= 1025 && width <= 1200) {
+  } else if (width >= 1025 && width <= 1280) {
     reqW = 640;
     reqH = 480;
-  } else if (width > 1200) {
+  } else if (width > 1280) {
     reqW = 1280;
     reqH = 720;
   }
@@ -192,10 +192,10 @@ randImg.addEventListener('load', function () {
 $randomizeButton.addEventListener('click', function () {
   const currentData = localStorage.getItem('javascript-local-storage');
   const currData = JSON.parse(currentData);
-  currScrH = screen.availHeight;
-  currScrW = screen.availWidth;
+  currWinH = window.innerHeight;
+  currWinW = window.innerWidth;
 
-  const sizes = reqSize(currScrW);
+  const sizes = reqSize(currWinW);
   imgReqH = sizes[1];
   imgReqW = sizes[0];
 
@@ -253,3 +253,16 @@ $toggleArea.addEventListener('click', event => {
   updateToggles();
 }
 );
+
+// set attribute change for canvas on window size change //
+window.addEventListener('resize', event => {
+  currWinH = window.innerHeight;
+  currWinW = window.innerWidth;
+
+  const sizes = reqSize(currWinW);
+  imgReqH = sizes[1];
+  imgReqW = sizes[0];
+
+  $canvasObj.setAttribute('width', imgReqW);
+  $canvasObj.setAttribute('height', imgReqH);
+});
