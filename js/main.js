@@ -5,6 +5,7 @@ const $animeList = document.getElementById('anime-select');
 const $keepImgBtn = document.getElementById('keepImg');
 const $keepQuoteBtn = document.getElementById('keepQuote');
 const $toggleArea = document.getElementById('toggle-area');
+const $loadingArea = document.getElementById('loading');
 
 // random image and quote variables//
 const randImg = new Image();
@@ -86,16 +87,11 @@ function getAnimeQuote(anime) {
   quoteReq.send();
 }
 
-// XHR for a random picture//
-function getRandomImg() {
-  const imgReq = new XMLHttpRequest();
-  imgReq.open('GET', `https://picsum.photos/${imgReqW}/${imgReqH}?grayscale`);
-  imgReq.responseType = 'json';
-  imgReq.addEventListener('load', function () {
-    const id = this.getResponseHeader('picsum-id');
-    imgUpdate(id);
-  });
-  imgReq.send();
+// set src to random number for only one update call //
+
+function randomizeImg() {
+  const randNum = getRandomIntInclusive(1, 1084);
+  imgUpdate(randNum);
 }
 
 // XHR and creation of anime list//
@@ -117,8 +113,10 @@ function quoteUpdate(quote, character, anime) {
   quoteText = quote;
   quoteAttr = character + ' (' + anime + ')';
   if (currData.keepQuote === 'off' && currData.keepImage === 'on') {
+    $loadingArea.removeAttribute('hidden');
     canvasLoadImg();
     quoteWrap(quoteText, 48);
+    $loadingArea.setAttribute('hidden', '');
   }
 }
 
@@ -134,6 +132,7 @@ function canvasLoadImg() {
 
 // function to take the quote and limit the number of char per line//
 function quoteWrap(quote, startFont) {
+  let useFont = startFont;
   const quoteWords = quote.split(' ');
   let currentLine = '';
   const maxW = (imgReqW - (imgReqW / 10));
@@ -141,31 +140,41 @@ function quoteWrap(quote, startFont) {
   let lineCount = 0;
 
   for (let i = 0; i < quoteWords.length; i++) {
-    const lineCheck = currentLine + quoteWords[i] + ' ';
-    const checkWidth = canvasCont.measureText(lineCheck);
-    canvasCont.font = `bold ${startFont}px Roboto`;
+    const lineCheck = currentLine + quoteWords[i] + ' '; // add current word plus a space //
+    const checkWidth = canvasCont.measureText(lineCheck); // measure the width of the current set of words //
+    canvasCont.font = `bold ${useFont}px Roboto`;
     canvasCont.fillStyle = '#FFD700';
     canvasCont.strokeStyle = 'black';
     canvasCont.textAlign = 'center';
-    if (checkWidth.width > maxW && i > 0 && lineCount < 6) {
-      canvasCont.fillText(currentLine, imgReqW / 2, fillH);
+    if (checkWidth.width > maxW && i > 0 && lineCount < 4) { // check if the current width has hit boundary to stop adding //
+      canvasCont.fillText(currentLine, imgReqW / 2, fillH); // fill with current number of words //
       canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
-      currentLine = quoteWords[i] + ' ';
+      currentLine = quoteWords[i] + ' '; // add a space to the end of the line //
       fillH = fillH + (imgReqH / 10); // space the lines of text out//
-      lineCount++;
-    } else if (lineCount < 4) {
-      currentLine = lineCheck;
+      lineCount++; // move to the next number of lines if width is not exceeded //
+    } else if (lineCount < 4) { // check if at line limit //
+      currentLine = lineCheck; // if line hasn't hit boundary, reset it to add another word //
     } else {
       // wipe the old text and try again with a smaller font //
+      useFont = (useFont - 2);
+      $loadingArea.removeAttribute('hidden');
       canvasLoadImg();
-      quoteWrap(quote, (startFont - 1));
+      quoteWrap(quote, useFont);
     }
   }
-  canvasCont.fillText(currentLine, imgReqW / 2, fillH);
-  canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
-  canvasCont.font = `bold ${startFont - 10}px Roboto`; // load in the attribution separately//
-  canvasCont.fillText(quoteAttr, imgReqW / 2, fillH + 75);
-  canvasCont.strokeText(quoteAttr, imgReqW / 2, fillH + 75);
+  if (lineCount !== 4) {
+    canvasCont.fillText(currentLine, imgReqW / 2, fillH);
+    canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
+    loadAttr(quoteAttr, useFont, maxW, fillH);
+  }
+}
+
+// function to load the attribution separately //
+
+function loadAttr(attr, font, maxWidth, height) {
+  canvasCont.font = `bold ${font - 4}px Roboto`; // load in the attribution separately//
+  canvasCont.fillText(quoteAttr, imgReqW / 2, height + 75, maxWidth);
+  canvasCont.strokeText(quoteAttr, imgReqW / 2, height + 75, maxWidth);
 }
 
 // function to create dropdown options//
@@ -185,8 +194,10 @@ window.addEventListener('load', () => {
 
 // populate new image and text once the image is ready//
 randImg.addEventListener('load', function () {
+  $loadingArea.removeAttribute('hidden');
   canvasLoadImg();
   quoteWrap(quoteText, 48);
+  $loadingArea.setAttribute('hidden', '');
 });
 
 // event listener for randomizing on button click//
@@ -211,7 +222,12 @@ $randomizeButton.addEventListener('click', function () {
     }
   }
   if (currData.keepImage === 'off') {
-    getRandomImg();
+    randomizeImg();
+  } else if (currData.keepImage === 'on') {
+    $loadingArea.removeAttribute('hidden');
+    canvasLoadImg();
+    quoteWrap(quoteText, 48);
+    $loadingArea.setAttribute('hidden', '');
   }
 });
 
