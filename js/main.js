@@ -5,7 +5,6 @@ const $animeList = document.getElementById('anime-select');
 const $keepImgBtn = document.getElementById('keepImg');
 const $keepQuoteBtn = document.getElementById('keepQuote');
 const $toggleArea = document.getElementById('toggle-area');
-const $loadingArea = document.getElementById('loading');
 
 // random image and quote variables//
 const randImg = new Image();
@@ -113,10 +112,8 @@ function quoteUpdate(quote, character, anime) {
   quoteText = quote;
   quoteAttr = character + ' (' + anime + ')';
   if (currData.keepQuote === 'off' && currData.keepImage === 'on') {
-    $loadingArea.removeAttribute('hidden');
     canvasLoadImg();
     quoteWrap(quoteText, 48);
-    $loadingArea.setAttribute('hidden', '');
   }
 }
 
@@ -157,7 +154,6 @@ function quoteWrap(quote, startFont) {
     } else {
       // wipe the old text and try again with a smaller font //
       useFont = (useFont - 2);
-      $loadingArea.removeAttribute('hidden');
       canvasLoadImg();
       quoteWrap(quote, useFont);
     }
@@ -194,10 +190,8 @@ window.addEventListener('load', () => {
 
 // populate new image and text once the image is ready//
 randImg.addEventListener('load', () => {
-  $loadingArea.removeAttribute('hidden');
   canvasLoadImg();
   quoteWrap(quoteText, 48);
-  $loadingArea.setAttribute('hidden', '');
 });
 
 // event listener for randomizing on button click//
@@ -224,10 +218,8 @@ $randomizeButton.addEventListener('click', function () {
   if (currData.keepImage === 'off') {
     randomizeImg();
   } else if (currData.keepImage === 'on') {
-    $loadingArea.removeAttribute('hidden');
     canvasLoadImg();
     quoteWrap(quoteText, 48);
-    $loadingArea.setAttribute('hidden', '');
   }
 });
 
