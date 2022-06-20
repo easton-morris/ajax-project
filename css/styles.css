@@ -74,6 +74,7 @@ label {
 }
 
 select {
+  cursor: pointer;
   background-color: #86ad74;
   border: hidden;
   border-radius: 5px;
