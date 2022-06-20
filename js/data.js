@@ -3,6 +3,7 @@
 const $keepImgButton = document.getElementById('keepImg');
 const $keepQuoteButton = document.getElementById('keepQuote');
 const $currentData = localStorage.getItem('javascript-local-storage');
+const $canvas = document.getElementById('canvas');
 
 const data = {
   animeSelect: 'random',
@@ -14,6 +15,8 @@ window.addEventListener('load', event => {
   const currData = JSON.parse($currentData);
   $keepImgButton.setAttribute('data-toggle', currData.keepImage);
   $keepQuoteButton.setAttribute('data-toggle', currData.keepQuote);
+  $canvas.setAttribute('height', (window.innerHeight - 400));
+  $canvas.setAttribute('width', (window.innerWidth - 400));
 });
 
 window.addEventListener('beforeunload', event => {
