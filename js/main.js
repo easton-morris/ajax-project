@@ -143,13 +143,13 @@ function quoteWrap(quote, startFont) {
     canvasCont.fillStyle = '#FFD700';
     canvasCont.strokeStyle = 'black';
     canvasCont.textAlign = 'center';
-    if (checkWidth.width > maxW && i > 0 && lineCount < 4) { // check if the current width has hit boundary to stop adding //
+    if (checkWidth.width > maxW && i > 0 && lineCount < 5) { // check if the current width has hit boundary to stop adding //
       canvasCont.fillText(currentLine, imgReqW / 2, fillH); // fill with current number of words //
       canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
-      currentLine = quoteWords[i] + ' '; // add a space to the end of the line //
+      currentLine = quoteWords[i] + ' '; // start a new line with the word that broke width, then add a space to the end of the line //
       fillH = fillH + (imgReqH / 10); // space the lines of text out//
       lineCount++; // move to the next number of lines if width is not exceeded //
-    } else if (lineCount < 4) { // check if at line limit //
+    } else if (lineCount < 5) { // check if at line limit //
       currentLine = lineCheck; // if line hasn't hit boundary, reset it to add another word //
     } else {
       // wipe the old text and try again with a smaller font //
@@ -158,17 +158,22 @@ function quoteWrap(quote, startFont) {
       quoteWrap(quote, useFont);
     }
   }
-  if (lineCount !== 4) {
+  if (lineCount < 5) {
     canvasCont.fillText(currentLine, imgReqW / 2, fillH);
     canvasCont.strokeText(currentLine, imgReqW / 2, fillH);
     loadAttr(quoteAttr, useFont, maxW, fillH);
+  } else {
+    // wipe the old text and try again with a smaller font //
+    useFont = (useFont - 2);
+    canvasLoadImg();
+    quoteWrap(quote, useFont);
   }
 }
 
 // function to load the attribution separately //
 
 function loadAttr(attr, font, maxWidth, height) {
-  canvasCont.font = `bold ${font - 4}px Roboto`; // load in the attribution separately//
+  canvasCont.font = `bold ${font - 10}px Roboto`; // load in the attribution separately//
   canvasCont.fillText(quoteAttr, imgReqW / 2, height + 75, maxWidth);
   canvasCont.strokeText(quoteAttr, imgReqW / 2, height + 75, maxWidth);
 }
