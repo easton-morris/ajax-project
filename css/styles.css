@@ -16,6 +16,11 @@ button {
   font-size: large;
 }
 
+button[data-toggle=on] {
+  border: inset;
+  background-color: #b76e79;
+}
+
 canvas {
   border-style: solid;
   border-color: black;
@@ -98,7 +103,10 @@ option {
   border-radius: 5px;
 }
 
-button[data-toggle=on] {
-  border: inset;
-  background-color: #b76e79;
+.update-message {
+  background-color: aquamarine;
+}
+
+.error-message {
+  background-color: rgb(202, 86, 86);
 }

@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:ital,wght@0,300;0,400;0,700;1,400;1,500;1,700&display=swap"
     rel="stylesheet">
 </head>
 <body>
@@ -35,6 +35,12 @@
         <li>If you would like to keep the image or the quote, toggle the corresponding buttons below the image.</li>
         <li>Note: if you accidently erase the image by resizing your browser, please toggle on both of the Keep buttons and reload.</li>
       </ol>
+    </div>
+    <div class="container" id="notification-area">
+      <p class="update-message" id="imgReq" hidden>Requested new image...</p>
+      <p class="update-message" id="quoteReq" hidden>Requested new quote...</p>
+      <p class="error-message" id="errorMsg" hidden>Something went wrong... please reload page and try again.</p>
+      <p class="error-message" id="offlineMsg" hidden>You appear to be offline. Please reload when online again.</p>
     </div>
     <div class="container">
       <form action="" id="quote-mods" method="POST" class="row">
