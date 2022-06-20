@@ -193,7 +193,7 @@ window.addEventListener('load', () => {
 });
 
 // populate new image and text once the image is ready//
-randImg.addEventListener('load', function () {
+randImg.addEventListener('load', () => {
   $loadingArea.removeAttribute('hidden');
   canvasLoadImg();
   quoteWrap(quoteText, 48);
