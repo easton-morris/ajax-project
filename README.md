@@ -36,13 +36,13 @@ _(100/hour for quotes, 5000 calls total/hour for images)_
 ### App In Action
 
 Randomize
-![Randomize](images\Example1.gif)
+![Randomize](https://github.com/easton-morris/anime-unrelated/blob/master/images/Example1.gif)
 
 Keep Image
-![Keep Image](images\Example2.gif)
+![Keep Image](https://github.com/easton-morris/anime-unrelated/blob/master/images/Example2.gif)
 
 Keep Quote
-![Keep Quote](images\Example3.gif)
+![Keep Quote](https://github.com/easton-morris/anime-unrelated/blob/master/images/Example3.gif)
 
 ### Stretch Features
 
