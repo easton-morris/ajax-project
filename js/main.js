@@ -5,6 +5,10 @@ const $animeList = document.getElementById('anime-select');
 const $keepImgBtn = document.getElementById('keepImg');
 const $keepQuoteBtn = document.getElementById('keepQuote');
 const $toggleArea = document.getElementById('toggle-area');
+const $imgReq = document.getElementById('imgReq');
+const $quoteReq = document.getElementById('quoteReq');
+const $errorMsg = document.getElementById('errorMsg');
+const $offlineMsg = document.getElementById('offlineMsg');
 
 // random image and quote variables//
 const randImg = new Image();
@@ -59,6 +63,10 @@ function getRandomQuote() {
   quoteReq.addEventListener('load', function () {
     quoteUpdate(this.response.quote, this.response.character, this.response.anime);
   });
+  quoteReq.addEventListener('error', err => {
+    $errorMsg.removeAttribute('hidden');
+    console.error(err);
+  });
   quoteReq.send();
 }
 
@@ -83,6 +91,10 @@ function getAnimeQuote(anime) {
 
     }
   });
+  quoteReq.addEventListener('error', err => {
+    $errorMsg.removeAttribute('hidden');
+    console.error(err);
+  });
   quoteReq.send();
 }
 
@@ -100,6 +112,10 @@ function getAnimeList() {
   listReq.responseType = 'json';
   listReq.addEventListener('load', function () {
     loadOptions(this.response);
+  });
+  listReq.addEventListener('error', err => {
+    $errorMsg.removeAttribute('hidden');
+    console.error(err);
   });
   listReq.send();
 }
@@ -173,7 +189,7 @@ function quoteWrap(quote, startFont) {
 // function to load the attribution separately //
 
 function loadAttr(attr, font, maxWidth, height) {
-  canvasCont.font = `bold ${font - 10}px Roboto`; // load in the attribution separately//
+  canvasCont.font = `italic bold ${(font * 0.75)}px Roboto`; // load in the attribution separately//
   canvasCont.fillText(quoteAttr, imgReqW / 2, height + 75, maxWidth);
   canvasCont.strokeText(quoteAttr, imgReqW / 2, height + 75, maxWidth);
 }
@@ -212,6 +228,8 @@ $randomizeButton.addEventListener('click', function () {
 
   $canvasObj.setAttribute('width', imgReqW);
   $canvasObj.setAttribute('height', imgReqH);
+
+  loadingInfo();
 
   if (currData.keepQuote === 'off') {
     if ($animeList.value === 'random') {
@@ -279,4 +297,33 @@ window.addEventListener('resize', event => {
 
   $canvasObj.setAttribute('width', imgReqW);
   $canvasObj.setAttribute('height', imgReqH);
+});
+
+// function to display loading info //
+function loadingInfo() {
+  const currentData = JSON.parse(localStorage.getItem('javascript-local-storage'));
+  if (currentData.keepImage === 'off') {
+    $imgReq.removeAttribute('hidden');
+    setTimeout(() => {
+      $imgReq.setAttribute('hidden', '');
+    }, 3000);
+  }
+  if (currentData.keepQuote === 'off') {
+    $quoteReq.removeAttribute('hidden');
+    setTimeout(() => {
+      $quoteReq.setAttribute('hidden', '');
+    }, 3000);
+  }
+}
+
+// function to make a listener for errors //
+window.addEventListener('error', function (e) {
+  $errorMsg.removeAttribute('hidden');
+  console.error(e);
+}, true);
+
+// function to display offline message //
+window.addEventListener('offline', e => {
+  $offlineMsg.removeAttribute('hidden');
+  console.error(e);
 });
