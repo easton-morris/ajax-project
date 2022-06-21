@@ -12,7 +12,10 @@ const data = {
 };
 
 window.addEventListener('load', event => {
-  const currData = JSON.parse($currentData);
+  let currData;
+  if ($currentData) {
+    currData = JSON.parse($currentData);
+  }
   $keepImgButton.setAttribute('data-toggle', currData.keepImage);
   $keepQuoteButton.setAttribute('data-toggle', currData.keepQuote);
   $canvas.setAttribute('height', (window.innerHeight - 400));

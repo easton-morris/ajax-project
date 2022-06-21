@@ -1,3 +1,3 @@
-# ajax-project
+# anime-unrelated
 
-A dynamic HTML, CSS, and JavaScript solo project.
+An HTML, CSS, and JavaScript app for creatively displaying quotes from various anime.

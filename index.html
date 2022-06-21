@@ -3,6 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Anime Unrelated" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://easton-morris.github.io/anime-unrelated/" />
+  <meta property="og:image"
+    content="https://i.imgur.com/9ubEX26.jpeg" />
+  <meta name="twitter:title" content="Anime Unrelated">
+  <meta name="twitter:description" content="An HTML, CSS, and JavaScript app for creatively displaying quotes from various anime. ">
+  <meta name="twitter:image"
+    content="https://easton-morris.github.io/anime-unrelated/images/AUIconT.png">
+  <meta name="twitter:card" content="summary_large_image">
   <title>Anime Unrelated</title>
   <link rel="icon" href="images/AUIconT.png">
   <link rel="stylesheet" href="css/reset.css">
@@ -32,8 +42,8 @@
       <ol>
         <li>Select an Anime from the drop down or leave as "random".</li>
         <li>If there is no image, click "Randomize".</li>
-        <li>If you would like to keep the image or the quote, toggle the corresponding buttons below the image.</li>
-        <li>Note: if you accidently erase the image by resizing your browser, please toggle on both of the Keep buttons and reload.</li>
+        <li>If you would like to keep the image or the quote: toggle the corresponding buttons below the image.</li>
+        <li>Note: if you accidently erase the image by resizing your browser, please toggle on both of the Keep buttons and click "Randomize".</li>
       </ol>
     </div>
     <div class="container" id="notification-area">
@@ -49,7 +59,7 @@
             Select an anime or select "random":
           </label>
           <select name="anime-select" id="anime-select">
-            <option value="random"> random </option>
+            <option value="random">random</option>
           </select>
         </div>
       </form>
